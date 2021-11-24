@@ -1,0 +1,9 @@
+{
+  "version": "v1",
+  "packages": {
+    "@website-tools/common": {
+      "signature": "dfed8dbd8ae46a9da1777eac823ba7e4",
+      "link": true
+    }
+  }
+}

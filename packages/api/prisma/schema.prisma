@@ -1,0 +1,27 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Report {
+  id          Int          @id @default(autoincrement())
+  createdAt   DateTime     @default(now())
+  url         String       @unique
+  data        String
+  screenshots Screenshot[]
+}
+
+model Screenshot {
+  id       Int    @id @default(autoincrement())
+  filename String
+  device   String
+  report   Report @relation(fields: [reportId], references: [id])
+  reportId Int
+}

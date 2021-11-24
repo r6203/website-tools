@@ -1,0 +1,11 @@
+{
+  "name": "website-tools",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "license": "MIT",
+  "workspaces": ["packages/*"],
+  "devDependencies": {
+    "typescript": "^4.5.2"
+  }
+}
