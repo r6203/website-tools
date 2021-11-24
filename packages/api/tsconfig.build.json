@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.build.json",
+
+  "compilerOptions": {
+    "outDir": "./dist1",
+    "module": "esnext",
+    "esModuleInterop": true
+  },
+  "include": ["./src/**/*"]
+}

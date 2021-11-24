@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.build.json",
+
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@website-tools/*": ["packages/*/src"]
+    },
+    "noEmit": true
+  },
+  "exclude": ["node_modules"]
+}
