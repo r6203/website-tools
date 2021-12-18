@@ -1,7 +1,7 @@
 import Fastify from "fastify";
 
 import { logger } from "@website-tools/common";
-import { queue } from "./website-check";
+import { CheckWebsiteResult, queue } from "./website-check";
 
 export * from "./website-check";
 
@@ -82,6 +82,7 @@ fastify.get<{ Params: { id: string } }>(
 
       const report = await prisma.report.findUnique({
         where: { url: job.data.url },
+        include: { screenshots: true },
       });
 
       if (!report) {
@@ -116,6 +117,7 @@ fastify.post<{ Body: { url: string } }>("/reports", async (request, reply) => {
   try {
     const report = await prisma.report.findUnique({
       where: { url },
+      include: { screenshots: true },
     });
 
     if (report) {
@@ -132,14 +134,22 @@ fastify.post<{ Body: { url: string } }>("/reports", async (request, reply) => {
     } else {
       const job = await queue.createJob({ url }).save();
 
-      job.on("succeeded", async (result) => {
+      job.on("succeeded", async (result: CheckWebsiteResult) => {
         logger.info({ id: job.id, url }, "Job succeeded");
+
+        const { screenshots, ...data } = result;
 
         try {
           const report = await prisma.report.create({
             data: {
               url: String(url),
-              data: JSON.stringify(result),
+              data: JSON.stringify(data),
+              screenshots: {
+                create: Object.entries(screenshots).map(([key, value]) => ({
+                  device: key,
+                  filename: value,
+                })),
+              },
             },
           });
 
@@ -178,7 +188,7 @@ const start = async () => {
   const port = process.env.PORT || 3000;
 
   try {
-    fastify.listen(port);
+    fastify.listen(port, "0.0.0.0");
   } catch (err) {
     logger.error(err);
 

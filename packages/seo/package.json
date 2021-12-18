@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@website-tools/common": "*",
+    "@website-tools/common": "link:.yalc/@website-tools/common",
     "axios": "^0.24.0",
     "cheerio": "^1.0.0-rc.10",
     "kleur": "^4.1.4"

@@ -4,6 +4,7 @@ import psi from "psi";
 
 import { AllChecks, checkAll as checkAllSEO } from "@website-tools/seo";
 import { logger } from "@website-tools/common";
+import { screenshot, screenshots } from "./screenshot";
 
 export const queue = new Queue("websiteCheck");
 
@@ -48,6 +49,10 @@ export interface CheckWebsiteResult extends AllChecks {
     desktop?: any;
     mobile?: any;
   };
+  screenshots?: {
+    desktop?: string;
+    mobile?: string;
+  };
 }
 
 export const checkWebsite = async (
@@ -66,9 +71,18 @@ export const checkWebsite = async (
     }
   }
 
+  // TODO desktop PSI
   result.psi = await getPsi(url, "mobile");
 
-  // const { data: mobilePsi } = await psi(url, { strategy: "mobile" });
+  const { mobile: mobileShot, desktop: desktopShot } = await screenshots(url, [
+    "mobile",
+    "desktop",
+  ]);
+
+  result.screenshots = {
+    desktop: desktopShot.screenshotPath,
+    mobile: mobileShot.screenshotPath,
+  };
 
   return result;
 };

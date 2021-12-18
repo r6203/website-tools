@@ -6,15 +6,15 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "rollup -c",
-    "start": "tsnd -r tsconfig-paths/register --exit-child --respawn src/index.ts"
+    "start": "env DATABASE_URL=file:./dev.db tsnd -r tsconfig-paths/register --exit-child --respawn src/index.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^3.5.0",
-    "@website-tools/common": "*",
-    "@website-tools/seo": "*",
+    "@website-tools/common": "link:.yalc/@website-tools/common",
+    "@website-tools/seo": "link:.yalc/@website-tools/seo",
     "axios": "^0.24.0",
     "bee-queue": "^1.4.0",
     "body-parser": "^1.19.0",
@@ -23,7 +23,8 @@
     "kleur": "^4.1.4",
     "polka": "^1.0.0-next.22",
     "prisma": "^3.5.0",
-    "psi": "^4.1.0"
+    "psi": "^4.1.0",
+    "puppeteer": "^12.0.1"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.0.1",
